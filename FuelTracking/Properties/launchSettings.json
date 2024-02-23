@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FuelTracking (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FuelTracking (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

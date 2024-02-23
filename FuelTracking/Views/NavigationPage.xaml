@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FuelTracking.Views.NavigationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FuelTracking.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Minimal">
+                    <VisualState.Setters>
+                        <Setter Target="AppTitleBar.Margin" Value="88,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Target="AppTitleBar.Margin" Value="48,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <NavigationView x:Name="AppNavigationView" IsTitleBarAutoPaddingEnabled="False" DisplayModeChanged="AppNavigationView_DisplayModeChanged">
+            <NavigationView.Resources>
+                <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+            </NavigationView.Resources>
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="Home" Tag="HomePage" />
+                <NavigationViewItemSeparator />
+                <NavigationViewItem Content="Fuel tracking" Tag="FuelTrackingPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE804;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            <NavigationView.Content>
+                <Frame x:Name="ContentFrame" />
+            </NavigationView.Content>
+        </NavigationView>
+        
+        <Border x:Name="AppTitleBar" Height="48" Margin="48,0,0,0" Padding="8,0,0,0" VerticalAlignment="Top" Background="Transparent">
+            <StackPanel Margin="0,8,0,8" VerticalAlignment="Center" Orientation="Horizontal">
+                <Image Width="16" Source="ms-appx:///Assets/StoreLogo.png" />
+                <TextBlock Text="App Title" Margin="16,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
