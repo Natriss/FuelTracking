@@ -24,7 +24,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         
-        <NavigationView x:Name="AppNavigationView" IsTitleBarAutoPaddingEnabled="False" DisplayModeChanged="AppNavigationView_DisplayModeChanged">
+        <NavigationView x:Name="AppNavigationView" IsTitleBarAutoPaddingEnabled="False" DisplayModeChanged="AppNavigationView_DisplayModeChanged" IsSettingsVisible="False">
             <NavigationView.Resources>
                 <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
             </NavigationView.Resources>
@@ -45,7 +45,7 @@
         <Border x:Name="AppTitleBar" Height="48" Margin="48,0,0,0" Padding="8,0,0,0" VerticalAlignment="Top" Background="Transparent">
             <StackPanel Margin="0,8,0,8" VerticalAlignment="Center" Orientation="Horizontal">
                 <Image Width="16" Source="ms-appx:///Assets/StoreLogo.png" />
-                <TextBlock Text="App Title" Margin="16,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
+                <TextBlock x:Uid="AppTitle" Margin="16,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </Border>
     </Grid>

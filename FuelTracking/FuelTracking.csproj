@@ -12,6 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\Dialogs\AddDialogPage.xaml" />
     <None Remove="Views\FuelTrackingPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\NavigationPage.xaml" />
@@ -43,6 +44,10 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FuelTracking.Core\FuelTracking.Core.csproj" />
+    <ProjectReference Include="..\FuelTracking.Data\FuelTracking.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\FuelTrackingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -54,6 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\NavigationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\AddDialogPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

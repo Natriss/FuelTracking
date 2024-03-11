@@ -5,10 +5,115 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FuelTracking.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:FuelTracking.Core.Models" xmlns:converters="using:FuelTracking.Converters"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:MonthToStringConverter x:Key="MonthToStringConverter" />
 
-    <Grid>
-        
-    </Grid>
+    </Page.Resources>
+
+    <ScrollView HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid RowSpacing="8" Margin="16,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--<InfoBar IsOpen="True" Grid.ColumnSpan="2" Severity="Success" Title="Success" Canvas.ZIndex="10" />-->
+            <TextBlock Grid.Row="0" Grid.Column="0" Style="{ThemeResource SubheaderTextBlockStyle}">
+                <Run Text="{x:Bind ViewModel.Date.Month, Mode=OneWay, Converter={StaticResource MonthToStringConverter}}" />
+                <Run Text="{x:Bind ViewModel.Date.Year, Mode=OneWay}" />
+            </TextBlock>
+            <CommandBar Grid.Row="0" Grid.Column="1" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" HorizontalAlignment="Right">
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCommand}" />
+                <AppBarButton Icon="Filter" Label="Filter">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="F" />
+                    </AppBarButton.KeyboardAccelerators>
+                    <AppBarButton.Flyout>
+                        <DatePickerFlyout DayVisible="False" Date="{x:Bind ViewModel.Date, Mode=OneWay}" DatePicked="DatePickerFlyout_DatePicked" ShouldConstrainToRootBounds="True" />
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Icon="Import" Label="Export" Command="{x:Bind ViewModel.ExportCommand}">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="E" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Canvas x:Name="canvas" HorizontalAlignment="Left" />
+            </ScrollView>
+
+            <ListView x:Name="ListView" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{x:Bind ViewModel.ItemSource, Mode=OneWay}" SelectionMode="Single" SelectionChanged="ListView_SelectionChanged">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="ID" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="1" Text="GasStation" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="2" Text="Volume" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="3" Text="Price" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="4" Text="Date" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FuelTrack">
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Icon="Delete" Text="Delete" Click="MenuFlyoutItem_Click" />
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
+                            <TextBlock Grid.Column="0" Text="{x:Bind Id}" VerticalAlignment="Center" />
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{x:Bind GasStation.Name}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="1" Style="{ThemeResource CaptionTextBlockStyle}">
+                                    <Run Text="{x:Bind GasStation.Street}" />
+                                    <Run Text="{x:Bind GasStation.Number}" />
+                                    <LineBreak />
+                                    <Run Text="{x:Bind GasStation.PostalCode}" />
+                                    <Run Text="{x:Bind GasStation.City}" />
+                                </TextBlock>
+                            </Grid>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                <Run Text="{x:Bind Volume}" />
+                                <Run Text="l" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="3" VerticalAlignment="Center">
+                                <Run Text="€" />
+                                <Run Text="{x:Bind Price}" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="4" Text="{x:Bind Date.ToShortDateString()}" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ScrollView>
 </Page>

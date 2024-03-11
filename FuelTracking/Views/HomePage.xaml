@@ -5,17 +5,73 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FuelTracking.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:FuelTracking.Core.Models"
     mc:Ignorable="d">
 
     <ScrollView>
-        <Grid>
+        <Grid RowSpacing="8" Margin="16,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Recently added fuel trackings" Style="{ThemeResource TitleTextBlockStyle}" />
-            <ListView Grid.Row="1" />
+            <ListView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{x:Bind ViewModel.ItemSource, Mode=OneWay}" SelectionMode="Single">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="ID" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="1" Text="GasStation" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="2" Text="Volume" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="3" Text="Price" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                            <TextBlock Grid.Column="4" Text="Date" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FuelTrack">
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{x:Bind Id}" VerticalAlignment="Center" />
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{x:Bind GasStation.Name}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="1" Style="{ThemeResource CaptionTextBlockStyle}">
+                        <Run Text="{x:Bind GasStation.Street}" />
+                        <Run Text="{x:Bind GasStation.Number}" />
+                        <LineBreak />
+                        <Run Text="{x:Bind GasStation.PostalCode}" />
+                        <Run Text="{x:Bind GasStation.City}" />
+                                </TextBlock>
+                            </Grid>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                    <Run Text="{x:Bind Volume}" />
+                    <Run Text="l" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="3" VerticalAlignment="Center">
+                    <Run Text="€" />
+                    <Run Text="{x:Bind Price}" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="4" Text="{x:Bind Date.ToShortDateString()}" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ScrollView>
 </Page>
